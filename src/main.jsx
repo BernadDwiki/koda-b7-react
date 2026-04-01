@@ -1,10 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './globals.css'
-import App from './App.jsx'
+import MiniTask1 from './Minitask1.jsx'
+import MiniTask2 from './Minitask2.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <MiniTask1 /> 
+    <MiniTask2 />
   </StrictMode>,
 )
