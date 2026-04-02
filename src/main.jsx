@@ -1,12 +1,29 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './globals.css'
-import MiniTask1 from './Minitask1.jsx'
-import MiniTask2 from './Minitask2.jsx'
+import { StrictMode } from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./globals.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import MiniTask1 from "./pages/Minitask1";
+import MiniTask2 from "./pages/Minitask2";
+import MiniTask3 from "./pages/Minitask3";
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <MiniTask1 /> 
-    <MiniTask2 />
-  </StrictMode>,
-)
+const root = document.getElementById("root");
+
+ReactDOM.createRoot(root).render(
+  <BrowserRouter>
+    <StrictMode>
+      <Header />
+      <main className="min-h-screen">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/minitask1" element={<MiniTask1 />} />
+          <Route path="/minitask2" element={<MiniTask2 />} />
+          <Route path="/minitask3" element={<MiniTask3 />} />
+        </Routes>
+      </main>
+      <Footer />
+    </StrictMode>
+  </BrowserRouter>,
+);
