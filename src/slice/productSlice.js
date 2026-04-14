@@ -1,16 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-const STORAGE_KEY = 'data';
-
-const loadInitialProducts = () => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
-  } catch {
-    return [];
-  }
-};
-
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const addProduct = createAsyncThunk('product/addProduct', async (product) => {
@@ -28,18 +17,10 @@ export const deleteProduct = createAsyncThunk('product/deleteProduct', async (pr
   return productId;
 });
 
-const persistProducts = (products) => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
-  } catch (error) {
-    console.error('Could not persist product data', error);
-  }
-};
-
 const productSlice = createSlice({
   name: 'product',
   initialState: {
-    products: loadInitialProducts(),
+    products: [],
     loading: false,
     error: null,
   },
@@ -53,7 +34,6 @@ const productSlice = createSlice({
       .addCase(addProduct.fulfilled, (state, action) => {
         state.loading = false;
         state.products.push(action.payload);
-        persistProducts(state.products);
       })
       .addCase(addProduct.rejected, (state, action) => {
         state.loading = false;
@@ -68,7 +48,6 @@ const productSlice = createSlice({
         state.products = state.products.map((product) =>
           product.id === action.payload.id ? action.payload : product
         );
-        persistProducts(state.products);
       })
       .addCase(updateProduct.rejected, (state, action) => {
         state.loading = false;
@@ -81,7 +60,6 @@ const productSlice = createSlice({
       .addCase(deleteProduct.fulfilled, (state, action) => {
         state.loading = false;
         state.products = state.products.filter((product) => product.id !== action.payload);
-        persistProducts(state.products);
       })
       .addCase(deleteProduct.rejected, (state, action) => {
         state.loading = false;
